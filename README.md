@@ -80,4 +80,5 @@ The IP of the device to get or set data to.
 The name that the wanted device has in the Google Home app.
 **Path:**
 The path to run. See [here](https://rithvikvibhu.github.io/GHLocalApi/) for knowing which paths are available.\
+Please, include the prefix `/`.\
 *Note: Currently only GET requests are supported.*
