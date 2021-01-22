@@ -20,7 +20,7 @@ if access_token is None:
     sys.exit(1)
 
 if device_name is None or device_ip is None or fetch_path is None:
-    print("ghome_get.py -i <device-ip> -n <device-name> -p <path>")
+    print("ghome_get.py -i <device-ip> -n <device-name> -p <path> -o [output]")
     sys.exit(1)
 
 script_path = Path(os.path.realpath(__file__))
@@ -39,7 +39,7 @@ for element in json.loads(lat_data):
     if name == device_name:
         found_device = True
         get_request = requests.get(
-            f"https://{device_ip}:8443/setup/{fetch_path}",
+            f"https://{device_ip}:8443/setup{fetch_path}",
             headers={'cast-local-authorization-token': token},
             verify=False,
         )
