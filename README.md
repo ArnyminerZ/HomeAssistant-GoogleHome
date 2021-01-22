@@ -68,23 +68,25 @@ Also, a visit to the [Captcha Unlock page](https://accounts.google.com/DisplayUn
 # Running
 The program is simply an script with some command line parameters in order to select which data to load. The command is as follows:
 ```bash
-ghome_get.py -i <device-ip> -n <device-name> -p <path>
+ghome_get.py [-h] [-j] -i <device-ip> -n <device-name> -p <path>
 ```
 or
 ```bash
-python ghome_get.py -i <device-ip> -n <device-name> -p <path> -o [output]
+python ghome_get.py [-h] [-j] -i <device-ip> -n <device-name> -p <path> -o [output]
 ```
-**Device IP:**
-The IP of the device to get or set data to.
-**Device Name:**
-The name that the wanted device has in the Google Home app.
-**Path:**
+**Device IP (`-i`):**\
+The IP of the device to get or set data to.\
+**Device Name (`-n`):**\
+The name that the wanted device has in the Google Home app.\
+**Path (`-p`):**\
 The path to run. See [here](https://rithvikvibhu.github.io/GHLocalApi/) for knowing which paths are available.\
 Please, include the prefix `/`.\
-*Note: Currently only GET requests are supported.*
-**Output:**
+*Note: Currently only GET requests are supported.*\
+**Output (`-o`):**\
 Not required, but recommended. This sets where the output data should be sent.\
-See [Output Options](#output-options) for viewing config parameters.
+See [Output Options](#output-options) for viewing config parameters.\
+**JSON (`-j`):**\
+Takes no parameters, if set the output will be a clean JSON message, with no extra lines.
 
 ## Output Options
 ### MQTT
