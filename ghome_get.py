@@ -43,7 +43,7 @@ for element in json.loads(lat_data):
             headers={'cast-local-authorization-token': token},
             verify=False,
         )
-        request_json = get_request.json()
+        request_json = get_request.text
         print(request_json)
 
 if not found_device:
