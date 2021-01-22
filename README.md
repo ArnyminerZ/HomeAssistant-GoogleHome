@@ -1,4 +1,7 @@
-# HomeAssistant-GoogleHome
+# HomeAssistant-
+<a href="https://gitmoji.dev">
+  <img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Gitmoji">
+</a>
 A python program that loads selected data from a Google Home in the network.
 
 Right now it only loads the data, the final objective is to allow it to be loaded into [Home Assistant](https://home-assistant.io) easily.
