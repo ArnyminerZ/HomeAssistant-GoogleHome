@@ -12,28 +12,38 @@ load_dotenv()
 from paho.mqtt import client as mqtt_client
 
 from get_tokens import master_token, access_token
-from load_params import device_ip, device_name, fetch_path, output_param
+from load_params import device_ip, device_name, fetch_path, output_param, use_json
 
 if master_token is None:
-    print("Master token not found")
+    if not use_json:
+        print("Master token not found")
+    else:
+        print("{error:\"missing_master_key\"}")
     sys.exit(1)
 if access_token is None:
-    print("Access token not found")
+    if not use_json:
+        print("Access token not found")
+    else:
+        print("{error:\"missing_access_token\"}")
     sys.exit(1)
 
 if device_name is None or device_ip is None or fetch_path is None:
-    print("ghome_get.py -i <device-ip> -n <device-name> -p <path> -o [output]")
+    if not use_json:
+        print("ghome_get.py [-h] [-j] -i <device-ip> -n <device-name> -p <path> -o [output]")
     sys.exit(1)
 
 def connect_mqtt(broker, port, username, password, client_id, topic, contents):
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
-            print("Connected to MQTT Broker!")
-            print(f"  Publishing to {topic}...", end=None)
+            if not use_json:
+                print("Connected to MQTT Broker!")
+                print(f"  Publishing to {topic}...", end=None)
             client.publish(topic, contents)
-            print("ok")
+            if not use_json:
+                print("ok")
         else:
-            print(f"Failed to connect, return code {rc}")
+            if not use_json:
+                print(f"Failed to connect, return code {rc}")
             sys.exit(1)
 
     client = mqtt_client.Client(client_id)
@@ -69,7 +79,8 @@ for element in json.loads(lat_data):
         # Perform all the outputs
         if output_param is not None:
             if output_param.startswith("mqtt://"):
-                print("Publishing through MQTT...")
+                if not use_json:
+                    print("Publishing through MQTT...")
                 # Get without mqtt://
                 req = output_param[7:]
                 # Split from topic
@@ -94,16 +105,16 @@ for element in json.loads(lat_data):
                 address = splt[0]
                 port = int(splt[1])
 
-                if username is not None:
+                if username is not None and not use_json:
                     print(f"  Authentication required (username:{username},pass={password}).")
 
                 client_id = "ghome_" + str(random.randint(0, 1000))
                 client = connect_mqtt(address, port, username, password, client_id, topic, request_json)
                 client.loop_start()
                 time.sleep(2)
-            else:
+            elif not use_json:
                 print("Found an output parameter, but the contents are not valid.")
                 print("Please check README for orientation on how to run the command: https://github.com/ArnyminerZ/HomeAssistant-GoogleHome#running")
 
-if not found_device:
+if not found_device and not use_json:
     print("Error: The specified device was not found. Check your parameters.")
