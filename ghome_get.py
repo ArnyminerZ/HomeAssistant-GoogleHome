@@ -20,7 +20,7 @@ if access_token is None:
     sys.exit(1)
 
 if device_name is None or device_ip is None or fetch_path is None:
-    print("get_alarms.py -i <device-ip> -n <device-name> -p <path>")
+    print("ghome_get.py -i <device-ip> -n <device-name> -p <path>")
     sys.exit(1)
 
 script_path = Path(os.path.realpath(__file__))
