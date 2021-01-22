@@ -92,3 +92,4 @@ For using MQTT as the output, the `-o` parameter must start with `mqtt://`. Then
 ```
 mqtt://username:password@host:port/topic
 ```
+*Note: `/` must not be a character in anything before topic. This is a temporary restriction, but for making coding easier, it's been done this way.*
