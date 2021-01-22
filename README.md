@@ -106,6 +106,10 @@ git clone https://github.com/ArnyminerZ/HomeAssistant-GoogleHome.git
 ```
 Now, remember where you have clonned the repo, since you will need the path later on.\
 For example, if you have clonned the repo in `~`, the path will be `/home/$USER/HomeAssistant-GoogleHome`.
+### Install requirements
+```bash
+pip install gpsoauth python-dotenv
+```
 ### `sensors.yaml`
 Add `sensor: !include sensors.yaml` to `configuration.yaml`, you can find it usually in `~/.homeassistant`.\
 Then, in `sensors.yaml`:
