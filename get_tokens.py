@@ -1,14 +1,15 @@
 # Get tokens for Google Home Foyer API
 # https://gist.github.com/rithvikvibhu/952f83ea656c6782fbd0f1645059055d
 
+# Modified by ArnyminerZ, for loading parameters from dotenv
 
 from gpsoauth import perform_master_login, perform_oauth
 from uuid import getnode as getmac
+import os
 
 # Creds to use when logging in
-USERNAME = 'arnyminer.z@gmail.com'
-PASSWORD = 'lmqnpznkakrohvcm'
-#PASSWORD = 'arnyminerzeselmillor_29112002@amg'
+USERNAME = os.getenv("GOOGLE_USERNAME")
+PASSWORD = os.getenv("GOOGLE_PASSWORD")
 
 # Optional Overrides (Set to None to ignore)
 device_id = None
