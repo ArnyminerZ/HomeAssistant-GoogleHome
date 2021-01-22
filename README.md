@@ -50,3 +50,14 @@ pip install gpsoauth
 ```bash
 pip install python-dotenv
 ```
+
+# Environment variables
+A OAuth token must be generated pretty frequently in order to access the Google Home. In this case, it's generated every time you run the script. This may be optimized in the future.\
+In any case, a file called `.env` should be declared with the following contents:
+```
+GOOGLE_USERNAME = <gmail>
+GOOGLE_PASSWORD = <password>
+```
+## Note on `GOOGLE_PASSWORD`
+If you have 2FA enabled on your account, instead of your account's password, it's easier to generate an app password. Follow the instructions [here](https://myaccount.google.com/apppasswords)\
+Also, a visit to the [Captcha Unlock page](https://accounts.google.com/DisplayUnlockCaptcha) may be required.
