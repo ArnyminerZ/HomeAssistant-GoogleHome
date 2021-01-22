@@ -72,7 +72,7 @@ ghome_get.py -i <device-ip> -n <device-name> -p <path>
 ```
 or
 ```bash
-python ghome_get.py -i <device-ip> -n <device-name> -p <path>
+python ghome_get.py -i <device-ip> -n <device-name> -p <path> -o [output]
 ```
 **Device IP:**
 The IP of the device to get or set data to.
@@ -82,3 +82,13 @@ The name that the wanted device has in the Google Home app.
 The path to run. See [here](https://rithvikvibhu.github.io/GHLocalApi/) for knowing which paths are available.\
 Please, include the prefix `/`.\
 *Note: Currently only GET requests are supported.*
+**Output:**
+Not required, but recommended. This sets where the output data should be sent.\
+See [Output Options](#output-options) for viewing config parameters.
+
+## Output Options
+### MQTT
+For using MQTT as the output, the `-o` parameter must start with `mqtt://`. Then, the format is as follows:
+```
+mqtt://username:password@host:port/topic
+```
