@@ -4,6 +4,9 @@ import json
 import requests
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from get_tokens import master_token, access_token
 
 if master_token is None:
