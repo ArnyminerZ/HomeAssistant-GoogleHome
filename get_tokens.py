@@ -5,11 +5,16 @@
 
 from gpsoauth import perform_master_login, perform_oauth
 from uuid import getnode as getmac
-import os
+import os, sys
 
 # Creds to use when logging in
 USERNAME = os.getenv("GOOGLE_USERNAME")
 PASSWORD = os.getenv("GOOGLE_PASSWORD")
+
+if USERNAME is None or PASSWORD is None:
+    print("USERNAME nor PASSWORD was not delcared on .env")
+    print("Please, check README.md and follow the instructions there on how to prepare the system.")
+    sys.exit(1)
 
 # Optional Overrides (Set to None to ignore)
 device_id = None
