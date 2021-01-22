@@ -64,3 +64,20 @@ GOOGLE_PASSWORD = <password>
 ## Note on `GOOGLE_PASSWORD`
 If you have 2FA enabled on your account, instead of your account's password, it's easier to generate an app password. Follow the instructions [here](https://myaccount.google.com/apppasswords)\
 Also, a visit to the [Captcha Unlock page](https://accounts.google.com/DisplayUnlockCaptcha) may be required.
+
+# Running
+The program is simply an script with some command line parameters in order to select which data to load. The command is as follows:
+```bash
+ghome_get.py -i <device-ip> -n <device-name> -p <path>
+```
+or
+```bash
+python ghome_get.py -i <device-ip> -n <device-name> -p <path>
+```
+**Device IP:**
+The IP of the device to get or set data to.
+**Device Name:**
+The name that the wanted device has in the Google Home app.
+**Path:**
+The path to run. See [here](https://rithvikvibhu.github.io/GHLocalApi/) for knowing which paths are available.\
+*Note: Currently only GET requests are supported.*
