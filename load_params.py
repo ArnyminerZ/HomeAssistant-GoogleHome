@@ -22,4 +22,4 @@ for opt, arg in opts:
     elif opt in ("-p", "--path"):
         fetch_path = arg
     elif opt in ("-o", "--output"):
-        fetch_path = arg
+        output_param = arg
