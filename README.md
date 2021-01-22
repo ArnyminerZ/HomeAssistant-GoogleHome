@@ -94,3 +94,24 @@ mqtt://username:password@host:port/topic
 ```
 *Note: `/` must not be a character in anything before topic. This is a temporary restriction, but for making coding easier, it's been done this way.*\
 *Note 2: If auth is not required, write `mqtt://@host...`*
+
+# Home Assistant Installation
+## Automatic (future)
+## Manual
+### Clone Repository
+```bash
+git clone https://github.com/ArnyminerZ/HomeAssistant-GoogleHome.git
+```
+Now, remember where you have clonned the repo, since you will need the path later on.\
+For example, if you have clonned the repo in `~`, the path will be `/home/$USER/HomeAssistant-GoogleHome`.
+### `sensors.yaml`
+Add `sensor: !include sensors.yaml` to `configuration.yaml`, you can find it usually in `~/.homeassistant`.\
+Then, in `sensors.yaml`:
+```yaml
+  - platform: command_line
+    command: python3 /home/$USER/HomeAssistant-GoogleHome/ghome_get.py -j -i 192.168.1.53 -n "Google Home" -p "/assistant/alarms"
+    name: google_home_alarms
+    scan_interval: 30
+    value_template: "{{ gh_alarms_json }}"
+```
+Note that we are using the `-j` parameter in the command, since we want to get a clean JSON output, without any extras.
