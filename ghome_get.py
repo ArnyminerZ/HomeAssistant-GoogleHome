@@ -11,8 +11,12 @@ load_dotenv()
 
 from paho.mqtt import client as mqtt_client
 
-from get_tokens import master_token, access_token
 from load_params import device_ip, device_name, fetch_path, output_param, use_json
+from get_tokens import master_token, access_token
+
+import urllib3
+if use_json:
+    urllib3.disable_warnings()
 
 if master_token is None:
     if not use_json:

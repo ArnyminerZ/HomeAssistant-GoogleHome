@@ -11,25 +11,26 @@ import os, sys
 USERNAME = os.getenv("GOOGLE_USERNAME")
 PASSWORD = os.getenv("GOOGLE_PASSWORD")
 
-if USERNAME is None or PASSWORD is None:
-    print("USERNAME nor PASSWORD was not delcared on .env")
-    print("Please, check README.md and follow the instructions there on how to prepare the system.")
-    sys.exit(1)
-
 # Optional Overrides (Set to None to ignore)
 device_id = None
 master_token = None
 access_token = None
 
 # Flags
-DEBUG = False
+VERBOSE = os.getenv("VERBOSE", "true") == "true"
+DEBUG = os.getenv("DEBUG", "false") == "true" and VERBOSE
+
+if USERNAME is None or PASSWORD is None and VERBOSE:
+    print("USERNAME nor PASSWORD was not delcared on .env")
+    print("Please, check README.md and follow the instructions there on how to prepare the system.")
+    sys.exit(1)
 
 
 def get_master_token(username, password, android_id):
     res = perform_master_login(username, password, android_id)
     if DEBUG:
         print(res)
-    if 'Token' not in res:
+    if 'Token' not in res and VERBOSE:
         print('[!] Could not get master token.')
         return None
     return res['Token']
@@ -44,7 +45,7 @@ def get_access_token(username, master_token, android_id):
     )
     if DEBUG:
         print(res)
-    if 'Auth' not in res:
+    if 'Auth' not in res and VERBOSE:
         print('[!] Could not get access token.')
         return None
     return res['Auth']
@@ -76,27 +77,17 @@ def _create_mac_string(num, splitter=':'):
 if not device_id:
     device_id = _get_android_id()
 
-
-# print('''
-# This script generates tokens that can be used when making requests to the Google Home Foyer API.
-# There are 2 kinds of tokens used here:
-# 1. Master token - Is in the form `aas_et/***` and is long lived. Needs Google username and password.
-# 2. Access token - Is in the form `ya29.***` and lasts for an hour. Needs Master token to generate.
-# If you do not want to store the Google account password in plaintext,
-# get the master token once, and set it as an override value.
-# It's safer/easier to generate an app password and use it instead of the actual password.
-# It still has the same access as the regular password, but still better than using the real password while scripting.
-# (https://myaccount.google.com/apppasswords)
-# ''')
-
-print('\n[*] Getting master token...')
+if VERBOSE:
+    print('\n[*] Getting master token...')
 if not master_token:
     master_token = get_master_token(USERNAME, PASSWORD, device_id)
-print('[*] Master token:', master_token)
+if VERBOSE:
+    print('[*] Master token:', master_token)
 
-print('\n[*] Getting access token...')
+    print('\n[*] Getting access token...')
 if not access_token:
     access_token = get_access_token(USERNAME, master_token, device_id)
-print('[*] Access token:', access_token)
+if VERBOSE:
+    print('[*] Access token:', access_token)
 
-print('\n[*] Done.')
+    print('\n[*] Done.')

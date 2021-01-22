@@ -1,6 +1,6 @@
 # Loads all the parameters from the command line
 
-import sys, getopt
+import sys, getopt, os
 
 device_ip = None
 device_name = None
@@ -26,3 +26,5 @@ for opt, arg in opts:
         fetch_path = arg
     elif opt in ("-o", "--output"):
         output_param = arg
+
+os.environ["VERBOSE"] = "false" if use_json else "true"
