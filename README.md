@@ -36,3 +36,17 @@ SOFTWARE.
 
 ## GHLocal API
 Repository: https://rithvikvibhu.github.io/GHLocalApi/
+
+# Requirements
+## Git
+For clonning the repository, git is required. Please, follow the instructions at the [official page](https://git-scm.com/).
+## Python 3.5+
+Other versions may work, but I'd recomment using versions greater or equal than 3.5. It can be installed as well from the [official webpage](https://www.python.org/).\
+Pip is also required for installing some dependencies.
+## Pip requirements
+```bash
+pip install gpsoauth
+```
+```bash
+pip install python-dotenv
+```
