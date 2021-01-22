@@ -1,5 +1,5 @@
 import os
-import sys
+import sys, getopt
 import json
 import requests
 from pathlib import Path
@@ -8,13 +8,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from get_tokens import master_token, access_token
+from load_params import device_ip, device_name
 
 if master_token is None:
     print("Master token not found")
     sys.exit(1)
-
 if access_token is None:
     print("Access token not found")
+    sys.exit(1)
+
+if device_name is None or device_ip is None:
+    print("get_alarms.py -i <device-ip> -n <device-name>")
     sys.exit(1)
 
 script_path = Path(os.path.realpath(__file__))
