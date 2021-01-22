@@ -29,7 +29,9 @@ def connect_mqtt(broker, port, username, password, client_id, topic, contents):
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
             print("Connected to MQTT Broker!")
+            print(f"  Publishing to {topic}...", end=None)
             client.publish(topic, contents)
+            print("ok")
         else:
             print(f"Failed to connect, return code {rc}")
             sys.exit(1)
@@ -75,7 +77,9 @@ for element in json.loads(lat_data):
                 # Get first half
                 where = splt[0]
                 # Get topic
-                topic = splt[1]
+                topic = ""
+                for i in range(1, len(splt)):
+                    topic += f"/{splt[i]}"
                 # Divide auth and host
                 splt = where.split("@")
                 # Get auth and host
