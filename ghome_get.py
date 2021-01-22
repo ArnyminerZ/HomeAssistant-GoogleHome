@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-import os
-import sys, getopt
+import os, sys, random
 import json
 import requests
 from pathlib import Path
@@ -10,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from get_tokens import master_token, access_token
-from load_params import device_ip, device_name, fetch_path
+from load_params import device_ip, device_name, fetch_path, output_param
 
 if master_token is None:
     print("Master token not found")
@@ -45,6 +44,58 @@ for element in json.loads(lat_data):
         )
         request_json = get_request.text
         print(request_json)
+
+        # Perform all the outputs
+        if output_param is not None:
+            if output_param.startswith("mqtt://"):
+                print("Publishing through MQTT...")
+                # Get without mqtt://
+                req = output_param[7:]
+                # Split from topic
+                splt = req.split("/")
+                # Get first half
+                where = splt[0]
+                # Get topic
+                topic = splt[1]
+                # Divide auth and host
+                splt = where.split("@")
+                # Get auth and host
+                auth = splt[0]
+                host = splt[1]
+                # Get username and password
+                splt = auth.split(":") if len(auth) > 0 else None
+                username = splt[0] if splt is not None else None
+                password = splt[1] if splt is not None else None
+                # Get address and port
+                splt = host.split(":")
+                address = splt[0]
+                port = int(splt[1])
+
+                # Import MQTT
+                import paho.mqtt.client as mqtt
+
+                def on_connect(client, userdata, flags, rc):
+                    print("ok! Result code "+str(rc))
+
+                    client.loop_start()
+                    client.publish(topic, request_json)
+                    client.disconnect()
+                    client.loop_stop()
+
+                def on_disconnect(client, userdata, rc):
+                    print("Disconnected from MQTT.")
+
+                client = mqtt.Client("ghome_" + str(random.randint(0, 1000)))
+                client.on_connect = on_connect
+                client.on_disconnect = on_disconnect
+                if username is not None:
+                    print(f"  Authentication required (username:{username},pass={password}).")
+                    client.username_pw_set(username, password)
+                print(f"  Connecting to {address}:{port}...", end=None)
+                client.connect(address, port) # Keep alive for 30 seconds
+            else:
+                print("Found an output parameter, but the contents are not valid.")
+                print("Please check README for orientation on how to run the command: https://github.com/ArnyminerZ/HomeAssistant-GoogleHome#running")
 
 if not found_device:
     print("Error: The specified device was not found. Check your parameters.")
