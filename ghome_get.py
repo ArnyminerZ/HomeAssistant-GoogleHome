@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import os, sys, random
-import json
 import requests
 from pathlib import Path
 import time
@@ -25,16 +24,19 @@ client = GLocalAuthenticationTokens(
 
 # Get master token
 master_token = client.get_master_token()
-print('[*] Master token', master_token)
+if not use_json:
+    print('[*] Master token', master_token)
 
 # Get access token (lives 1 hour)
 access_token = client.get_access_token()
-print('\n[*] Access token (lives 1 hour)', access_token)
+if not use_json:
+    print('\n[*] Access token (lives 1 hour)', access_token)
 
 # Get google device local authentication tokens (live about 1 day)
-print('\n[*] Google devices local authentication tokens')
 google_devices = client.get_google_devices_json()
-print(google_devices)
+if not use_json:
+    print('\n[*] Google devices local authentication tokens')
+    print(google_devices)
 
 
 if device_name is None or device_ip is None or fetch_path is None:
