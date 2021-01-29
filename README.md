@@ -133,6 +133,12 @@ mqtt://username:password@host:port/topic
 *Note: `/` must not be a character in anything before topic. This is a temporary restriction, but for making coding easier, it's been done this way.*\
 *Note 2: If auth is not required, write `mqtt://@host...`*
 
+## Manual Data Get
+For getting the list of Google Home devices manually, you can run the following command from the project's source folder:
+```
+./grpcurl -H 'authorization: Bearer {access_token}' -import-path . -proto ./google/internal/home/foyer/v1.proto googlehomefoyer-pa.googleapis.com:443 google.internal.home.foyer.v1.StructuresService/GetHomeGraph | jq '.home.devices[] | {{deviceName, localAuthToken}}'
+```
+
 # Home Assistant Installation
 ## Automatic (future)
 ## Manual
