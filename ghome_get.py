@@ -5,18 +5,37 @@ import json
 import requests
 from pathlib import Path
 import time
+from glocaltokens.client import GLocalAuthenticationTokens
 
 from dotenv import load_dotenv
 load_dotenv()
 
 from paho.mqtt import client as mqtt_client
-
 from load_params import device_ip, device_name, fetch_path, output_param, use_json
-from get_tokens import master_token, access_token
 
 import urllib3
 if use_json:
     urllib3.disable_warnings()
+
+
+client = GLocalAuthenticationTokens(
+  username=os.getenv("GOOGLE_USERNAME"),
+  password=os.getenv("GOOGLE_PASSWORD")
+)
+
+# Get master token
+master_token = client.get_master_token()
+print('[*] Master token', master_token)
+
+# Get access token (lives 1 hour)
+access_token = client.get_access_token()
+print('\n[*] Access token (lives 1 hour)', access_token)
+
+# Get google device local authentication tokens (live about 1 day)
+print('\n[*] Google devices local authentication tokens')
+google_devices = client.get_google_devices_json()
+print(google_devices)
+
 
 if master_token is None:
     if not use_json:
