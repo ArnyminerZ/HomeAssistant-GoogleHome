@@ -49,9 +49,43 @@ Pip is also required for installing some dependencies.
 ## Pip requirements
 ```bash
 pip install gpsoauth
-```
-```bash
 pip install python-dotenv
+pip install paho-mqtt
+```
+## Requirements
+### JQ
+```bash
+sudo apt install jq
+```
+### `grpcurl` (Temporal)
+If you are running on a Raspberry Pi or other ARM-based computers, you will need to compile grpcurl by yourself.\
+For that, first, clone the repository wherever you want:
+```bash
+git clone https://github.com/fullstorydev/grpcurl.git
+```
+Then, access it:
+```bash
+cd grpcurl/
+```
+Now, ensure you have `make` and `golang` installed:
+```bash
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install make golang -y
+```
+Now, compile grpcurl. This will take a while, so take a break while it's going it's thing.
+```bash
+make install
+```
+#### Generating python files (Experimental)
+gRPC for Python requires some files to be generated. The following tools are required to do this:
+```bash
+pip install grpcio
+pip install grpcio-tools
+```
+And then, compile the Python files:
+```bash
+python -m grpc_tools.protoc -I./google/internal/home/foyer --python_out=./grpc_src --grpc_python_out=./grpc_src v1.proto
 ```
 
 # Environment variables
@@ -109,6 +143,9 @@ For example, if you have clonned the repo in `~`, the path will be `/home/$USER/
 ### Install requirements
 ```bash
 pip install gpsoauth python-dotenv
+```
+```bash
+sudo apt install jq
 ```
 ### `sensors.yaml`
 Add `sensor: !include sensors.yaml` to `configuration.yaml`, you can find it usually in `~/.homeassistant`.\
