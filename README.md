@@ -40,6 +40,9 @@ SOFTWARE.
 ## GHLocal API
 Repository: https://rithvikvibhu.github.io/GHLocalApi/
 
+## GLocalTokens
+Repository: https://github.com/leikoilja/glocaltokens
+
 # Requirements
 ## Git
 For clonning the repository, git is required. Please, follow the instructions at the [official page](https://git-scm.com/).
@@ -52,6 +55,7 @@ pip install gpsoauth
 pip install python-dotenv
 pip install paho-mqtt
 pip install requests==2.23.0
+pip install glocaltokens
 ```
 **IMPORTANT!** The version `2.23.0` of `requests` must be used. Otherwise a `Bad Authentication` error will show up.
 ## Requirements
