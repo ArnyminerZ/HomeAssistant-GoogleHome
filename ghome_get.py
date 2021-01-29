@@ -37,19 +37,6 @@ google_devices = client.get_google_devices_json()
 print(google_devices)
 
 
-if master_token is None:
-    if not use_json:
-        print("Master token not found")
-    else:
-        print("{error:\"missing_master_key\"}")
-    sys.exit(1)
-if access_token is None:
-    if not use_json:
-        print("Access token not found")
-    else:
-        print("{error:\"missing_access_token\"}")
-    sys.exit(1)
-
 if device_name is None or device_ip is None or fetch_path is None:
     if not use_json:
         print("ghome_get.py [-h] [-j] -i <device-ip> -n <device-name> -p <path> -o [output]")
@@ -79,12 +66,8 @@ def connect_mqtt(broker, port, username, password, client_id, topic, contents):
 script_path = Path(os.path.realpath(__file__))
 script_dir_path = script_path.parent
 
-lat_result = os.popen(f"{script_dir_path}/grpcurl -H 'authorization: Bearer {access_token}' -import-path {script_dir_path} -proto {script_dir_path}/google/internal/home/foyer/v1.proto googlehomefoyer-pa.googleapis.com:443 google.internal.home.foyer.v1.StructuresService/GetHomeGraph | jq '.home.devices[] | {{deviceName, localAuthToken}}'")
-lat_data = lat_result.read()[:-1] # -1 for removing the last line jump
-lat_data = "[" + lat_data.replace("}", "},")[:-1] + "]" # Format the JSON correctly
-
 found_device = False
-for element in json.loads(lat_data):
+for element in google_devices:
     token = element["localAuthToken"]
     name = element["deviceName"]
     if token is None:
