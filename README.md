@@ -51,7 +51,9 @@ Pip is also required for installing some dependencies.
 pip install gpsoauth
 pip install python-dotenv
 pip install paho-mqtt
+pip install requests==2.23.0
 ```
+**IMPORTANT!** The version `2.23.0` of `requests` must be used. Otherwise a `Bad Authentication` error will show up.
 ## Requirements
 ### JQ
 ```bash
