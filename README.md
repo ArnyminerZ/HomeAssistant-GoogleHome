@@ -51,48 +51,12 @@ Other versions may work, but I'd recomment using versions greater or equal than 
 Pip is also required for installing some dependencies.
 ## Pip requirements
 ```bash
-pip install gpsoauth
 pip install python-dotenv
 pip install paho-mqtt
 pip install requests==2.23.0
 pip install glocaltokens
 ```
 **IMPORTANT!** The version `2.23.0` of `requests` must be used. Otherwise a `Bad Authentication` error will show up.
-## Requirements
-### JQ
-```bash
-sudo apt install jq
-```
-### `grpcurl` (Temporal)
-If you are running on a Raspberry Pi or other ARM-based computers, you will need to compile grpcurl by yourself.\
-For that, first, clone the repository wherever you want:
-```bash
-git clone https://github.com/fullstorydev/grpcurl.git
-```
-Then, access it:
-```bash
-cd grpcurl/
-```
-Now, ensure you have `make` and `golang` installed:
-```bash
-sudo apt update -y
-sudo apt upgrade -y
-sudo apt install make golang -y
-```
-Now, compile grpcurl. This will take a while, so take a break while it's going it's thing.
-```bash
-make install
-```
-#### Generating python files (Experimental)
-gRPC for Python requires some files to be generated. The following tools are required to do this:
-```bash
-pip install grpcio
-pip install grpcio-tools
-```
-And then, compile the Python files:
-```bash
-python -m grpc_tools.protoc -I./google/internal/home/foyer --python_out=./grpc_src --grpc_python_out=./grpc_src v1.proto
-```
 
 # Environment variables
 A OAuth token must be generated pretty frequently in order to access the Google Home. In this case, it's generated every time you run the script. This may be optimized in the future.\
@@ -137,12 +101,6 @@ mqtt://username:password@host:port/topic
 *Note: `/` must not be a character in anything before topic. This is a temporary restriction, but for making coding easier, it's been done this way.*\
 *Note 2: If auth is not required, write `mqtt://@host...`*
 
-## Manual Data Get
-For getting the list of Google Home devices manually, you can run the following command from the project's source folder:
-```
-./grpcurl -H 'authorization: Bearer {access_token}' -import-path . -proto ./google/internal/home/foyer/v1.proto googlehomefoyer-pa.googleapis.com:443 google.internal.home.foyer.v1.StructuresService/GetHomeGraph | jq '.home.devices[] | {{deviceName, localAuthToken}}'
-```
-
 # Home Assistant Installation
 ## Automatic (future)
 ## Manual
@@ -154,10 +112,7 @@ Now, remember where you have clonned the repo, since you will need the path late
 For example, if you have clonned the repo in `~`, the path will be `/home/$USER/HomeAssistant-GoogleHome`.
 ### Install requirements
 ```bash
-pip install gpsoauth python-dotenv
-```
-```bash
-sudo apt install jq
+pip install python-dotenv paho-mqtt requests==2.23.0 glocaltokens
 ```
 ### `sensors.yaml`
 Add `sensor: !include sensors.yaml` to `configuration.yaml`, you can find it usually in `~/.homeassistant`.\
