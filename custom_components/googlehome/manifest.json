@@ -1,0 +1,14 @@
+{
+  "codeowners": [
+    "@ArnyminerZ"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/ArnyminerZ/HomeAssistant-GoogleHome",
+  "domain": "googlehome",
+  "name": "Google Home",
+  "requirements": [
+    "requests==2.23.0",
+    "glocaltokens==0.1.4"
+  ]
+}

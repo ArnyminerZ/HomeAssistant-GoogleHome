@@ -1,0 +1,40 @@
+{
+  "config": {
+    "error": {
+      "auth": "The username and password combination provided is not valid",
+      "invalid_path": "The path provided is not valid. Should be one of the shown in https://rithvikvibhu.github.io/GHLocalApi/"
+    },
+    "step": {
+      "user": {
+        "description": "Enter your Google Credentials",
+        "title": "Authentication"
+      },
+      "device": {
+        "data": {
+          "ip_address": "The IP address of the device in your network. This can be found in the Google Home app.",
+          "friendly_name": "The name that you set to the device in the Google Home app. Case sensitive",
+          "path": "The request path to get. Choose from https://rithvikvibhu.github.io/GHLocalApi/"
+        },
+        "description": "Add a Google Home device, check the box to add another.",
+        "title": "Add Google Home device"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "invalid_path": "The path provided is not valid. Should be one of the shown in https://rithvikvibhu.github.io/GHLocalApi/"
+    },
+    "step": {
+      "init": {
+        "title": "Manage Devices",
+        "description": "Remove existing devices or add a new device.",
+        "data": {
+          "devices": "Existing devices: Uncheck any device you want to remove.",
+          "ip_address": "New Device: The IP address of the device in your network. This can be found in the Google Home app.",
+          "friendly_name": "New Device: The name that you set to the device in the Google Home app. Case sensitive",
+          "path": "New Device: The request path to get. Choose from https://rithvikvibhu.github.io/GHLocalApi/"
+        }
+      }
+    }
+  }
+}
