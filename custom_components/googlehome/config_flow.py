@@ -102,7 +102,7 @@ class GoogleHomeCustomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         new_device_schema = vol.Schema(
             {
                 vol.Required(CONF_IP_ADDRESS): cv.string,
-                vol.Required(CONF_FRIENDLY_NAME, default=list(device_names.keys())): cv.multi_select(device_names),
+                vol.Required(CONF_FRIENDLY_NAME): cv.ensure_list(device_names),
                 vol.Required(CONF_PATH): cv.string,
                 vol.Optional("add_another"): cv.boolean,
             }
