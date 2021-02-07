@@ -116,12 +116,20 @@ pip install python-dotenv paho-mqtt requests==2.23.0 glocaltokens
 ```
 ### `sensors.yaml`
 Add `sensor: !include sensors.yaml` to `configuration.yaml`, you can find it usually in `~/.homeassistant`.\
-Then, in `sensors.yaml`:
+Then, create a shell script where you find it comfortable, for example `~/clock.sh`, and add:
+```shell
+python3.8 /.../ghome_get.py -j -i 192.168.1.76 -n "Lenovo Smart Clock" -p "/assistant/alarms"
+```
+*Note: replace ... by the path to this clonned repo.*
+And finally, in `sensors.yaml`:
 ```yaml
   - platform: command_line
-    command: python3 /home/$USER/HomeAssistant-GoogleHome/ghome_get.py -j -i 192.168.1.53 -n "Google Home" -p "/assistant/alarms"
-    name: google_home_alarms
+    command: /home/homeassistant/clock.sh
+    name: lenovo_alarms
     scan_interval: 30
-    value_template: "{{ gh_alarms_json }}"
+    json_attributes:
+      - alarm
+      - timer
+    value_template: "{{ value_json.alarm[0] }}"
 ```
 Note that we are using the `-j` parameter in the command, since we want to get a clean JSON output, without any extras.
