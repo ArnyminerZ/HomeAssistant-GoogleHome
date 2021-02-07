@@ -17,9 +17,12 @@ if use_json:
     urllib3.disable_warnings()
 
 
+USERNAME = data.get("username", os.getenv("GOOGLE_USERNAME")) if 'data' in globals() else os.getenv("GOOGLE_USERNAME")
+PASSWORD = data.get("password", os.getenv("GOOGLE_PASSWORD")) if 'data' in globals() else os.getenv("GOOGLE_PASSWORD")
+
 client = GLocalAuthenticationTokens(
-  username=os.getenv("GOOGLE_USERNAME"),
-  password=os.getenv("GOOGLE_PASSWORD")
+  username=USERNAME,
+  password=PASSWORD
 )
 
 # Get master token
