@@ -4,10 +4,11 @@ import http3
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+from typing import Callable, Optional, Dict, Any, List
 from glocaltokens.client import GLocalAuthenticationTokens
+
 from homeassistant import config_entries, core
 from homeassistant.components.sensor import PLATFORM_SCHEMA
-import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (
     ATTR_NAME,
     ATTR_ICON,
@@ -18,9 +19,8 @@ from homeassistant.const import (
     CONF_DEVICES,
     CONF_PATH
 )
-from homeassistant.helpers import entity_platform
+from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.typing import HomeAssistantType, DiscoveryInfoType
-from typing import Callable, Optional, Dict, Any, List
 
 from .const import *
 
