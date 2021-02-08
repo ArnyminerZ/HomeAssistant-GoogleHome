@@ -1,7 +1,7 @@
 import json
 import requests
 from homeassistant.helpers.entity import Entity
-from typing import Callable, Optional, Dict, Any
+from typing import Callable, Optional, Dict, Any, List
 
 from glocaltokens.client import GLocalAuthenticationTokens
 
@@ -57,13 +57,16 @@ async def async_setup_entry(
         username=config[CONF_USERNAME],
         password=config[CONF_PASSWORD]
     )
-    sensors = [GoogleHomeVolumeSensor(client, device) for device in config[CONF_DEVICES]]
-    async_add_entities(sensors, update_before_end=True)
+    sensors: List[Entity] = list()
+    for device in config[CONF_DEVICES]:
+        _LOGGER.info("Adding device:" + str(device))
+        sensors.append(GoogleHomeVolumeSensor(client, device))
+    async_add_entities(sensors, update_before_add=True)
 
 
 async def async_setup_platform(
         hass: HomeAssistantType,
-        config: ConfigType,
+        config,
         async_add_entities: Callable,
         discovery_info: Optional[DiscoveryInfoType] = None,
 ) -> None:
@@ -72,24 +75,27 @@ async def async_setup_platform(
         username=config[CONF_USERNAME],
         password=config[CONF_PASSWORD]
     )
-    sensors = [GoogleHomeVolumeSensor(client, device) for device in config[CONF_DEVICES]]
-    async_add_entities(sensors, update_before_end=True)
+    sensors: List[Entity] = list()
+    for device in config[CONF_DEVICES]:
+        _LOGGER.info("Adding device:" + str(device))
+        sensors.append(GoogleHomeVolumeSensor(client, device))
+    async_add_entities(sensors, update_before_add=True)
 
 
 class GoogleHomeVolumeSensor(Entity):
     """Representation of a Google Home device"""
 
-    def __init__(self, client: GLocalAuthenticationTokens, device: Dict[str, str, str]):
+    def __init__(self, client: GLocalAuthenticationTokens, device: Dict[str, str]):
         super().__init__()
         self.client = client
-        self.friendly_name: str = device[CONF_FRIENDLY_NAME]
-        self.ip: str = device[CONF_IP_ADDRESS]
-        self.path: str = device[CONF_PATH]
+        self.friendly_name: str = device["name"]
+        self.ip: str = device["ip"]
+        self.path: str = device["path"]
         self.attrs: Dict[str, Any] = {
             ATTR_NAME: self.friendly_name
         }
         self.eureka = None
-        self._name = device.get("name", self.friendly_name)
+        self._name = self.friendly_name
         self._state = None
         self._available = False
         self._icon = "mdi:google-home"
