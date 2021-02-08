@@ -59,7 +59,7 @@ async def async_setup_entry(
     sensors: List[Entity] = list()
     for device in config[CONF_DEVICES]:
         _LOGGER.info("Adding device:" + str(device))
-        sensors.append(GoogleHomeVolumeSensor(client, device))
+        sensors.append(GoogleHomeSensor(client, device))
     async_add_entities(sensors, update_before_add=True)
 
 
@@ -77,11 +77,11 @@ async def async_setup_platform(
     sensors: List[Entity] = list()
     for device in config[CONF_DEVICES]:
         _LOGGER.info("Adding device:" + str(device))
-        sensors.append(GoogleHomeVolumeSensor(client, device))
+        sensors.append(GoogleHomeSensor(client, device))
     async_add_entities(sensors, update_before_add=True)
 
 
-class GoogleHomeVolumeSensor(Entity):
+class GoogleHomeSensor(Entity):
     """Representation of a Google Home device"""
 
     def __init__(self, client: GLocalAuthenticationTokens, device: Dict[str, str]):
