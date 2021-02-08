@@ -6,7 +6,7 @@ from typing import Optional, Dict, Any
 from glocaltokens.client import GLocalAuthenticationTokens
 
 import homeassistant.helpers.config_validation as cv
-from homeassistant import config_entries, core
+from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import callback
 from homeassistant.helpers.entity_registry import (
@@ -97,17 +97,10 @@ class GoogleHomeCustomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
                 return self.async_create_entry(title="Google Home", data=self.data)
 
-        client = GLocalAuthenticationTokens(
-            username=self.data[CONF_USERNAME],
-            password=self.data[CONF_PASSWORD]
-        )
-        devices = client.get_google_devices_json()
-        device_names = {e.entity_id: e.deviceName for e in devices}
-
         new_device_schema = vol.Schema(
             {
                 vol.Required(CONF_IP_ADDRESS): cv.string,
-                vol.Required(CONF_FRIENDLY_NAME): cv.ensure_list(device_names),
+                vol.Required(CONF_FRIENDLY_NAME): cv.string,
                 vol.Required(CONF_PATH): cv.string,
                 vol.Optional("add_another"): cv.boolean,
             }
