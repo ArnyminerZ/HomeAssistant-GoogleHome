@@ -6,17 +6,21 @@
     },
     "step": {
       "user": {
-        "description": "Enter your Google Credentials",
-        "title": "Authentication"
+        "description": "Enter your Google Credentials. If your account uses 2FA, you must generate an app password, and use it instead of your normal password: https://myaccount.google.com/apppasswords",
+        "title": "Authentication",
+        "data": {
+          "username": "Username (your Google email)",
+          "password": "Password"
+        }
       },
       "device": {
+        "title": "Add Google Home device",
+        "description": "Add a Google Home device, check the box to add another.",
         "data": {
           "ip_address": "The IP address of the device in your network. This can be found in the Google Home app.",
           "friendly_name": "The name that you set to the device in the Google Home app. Case sensitive",
           "path": "The request path to get. Choose from https://rithvikvibhu.github.io/GHLocalApi/"
-        },
-        "description": "Add a Google Home device, check the box to add another.",
-        "title": "Add Google Home device"
+        }
       }
     }
   },
