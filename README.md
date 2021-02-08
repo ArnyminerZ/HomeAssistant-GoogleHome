@@ -1,6 +1,6 @@
 # Google Home for Home Assistant
 
-## Manual Installation
+# Installation
 
 First, install the required dependencies, so you will have fewer problems when installing into Home Assistant. In my
 case, the command is as follows, but may vary for your installation:
@@ -27,6 +27,33 @@ Then, add the following tag to your Home Assistant's `configuration.yaml` file:
 ```yaml
 googlehome:
 ```
+
+# Configuration
+
+Configuring your Google Home is really easy, and can be done from the UI.\
+Simply go to your integrations page at Home Assistant (e.g. `192.168.1.1:8123/config/integrations`), select the *Add
+Integration* button, and if you have [installed the integration](#installation)
+correctly, an integration called *Google Home* should appear; select it.\
+The following window should open:
+
+![Authentication Step](img/auth.png)
+
+You should fill the fields with your Google's username, and your password. This second one can be:
+
+1. Your Google's Account password (if you don't have 2FA enabled)
+2. An app password (if you have 2FA enabled). It can be generated from
+   [Google's website](https://myaccount.google.com/apppasswords).
+
+Now it's time to configure your device. First, access the Google Home app on your phone, and search for the desired
+device, enter its configuration, and at the bottom of the page, the IP of the device should appear. Now, fill as
+follows:
+
+![Device configuration step](img/device.png)
+
+On `IP Address`, put the found address, on `Name`, the name you have set to your device in the Google Home app. In GET
+path, choose one of the following:
+
+- `next_alarm`: The value of the entity will be the timestamp (UNIX) of the next alarm at the device.
 
 # Credits
 
