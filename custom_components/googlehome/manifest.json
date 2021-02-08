@@ -12,7 +12,7 @@
     "grpcio==1.31.0",
     "grpcio-tools",
     "simplejson",
-    "requests",
+    "http3",
     "glocaltokens>=0.1.4"
   ]
 }
