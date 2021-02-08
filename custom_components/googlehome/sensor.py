@@ -1,6 +1,7 @@
 import json
 import logging
 import http3
+import datetime
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
@@ -28,6 +29,7 @@ DEVICE_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_IP_ADDRESS): cv.string,
         vol.Required(CONF_FRIENDLY_NAME): cv.string,
+        vol.Required(CONF_PATH): cv.string,
         vol.Required(CONF_PATH): cv.string
     }
 )
@@ -81,7 +83,9 @@ class GoogleHomeSensor(Entity):
         self.client = client
         self.friendly_name: str = device["name"]
         self.ip: str = device["ip"]
-        self.path: str = device["path"]
+        self.parameter: Dict[str, str] = AVAILABLE_CONF_PATHS[device["parameter"]]
+        self.path: str = ""
+        self.path = self.parameter["path"]
         self.attrs: Dict[str, Any] = {
             ATTR_NAME: self.friendly_name
         }
@@ -89,7 +93,7 @@ class GoogleHomeSensor(Entity):
         self._name = self.friendly_name
         self._state = None
         self._available = False
-        self._icon = "mdi:google-home"
+        self._icon = self.parameter["icon"]
 
     @property
     def name(self) -> str:
@@ -105,6 +109,15 @@ class GoogleHomeSensor(Entity):
 
     @property
     def state(self) -> Optional[str]:
+        if self.path == "/assistant/alarms":
+            value = json.loads(self._state)
+            alarms = value["alarm"]
+            fire_times = []
+            for alarm in alarms:
+                if alarm['status'] == 1:
+                    fire_times.append(float(alarm['fire_time']) / 1000)
+            return str(min(fire_times))
+
         return self._state
 
     @property

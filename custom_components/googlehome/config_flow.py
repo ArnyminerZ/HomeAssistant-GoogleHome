@@ -23,7 +23,7 @@ from homeassistant.const import (
 )
 
 from .const import (
-    DOMAIN, AVAILABLE_GET_PATHS
+    DOMAIN, AVAILABLE_CONF_PATHS
 )
 
 AUTH_SCHEMA = vol.Schema(
@@ -45,7 +45,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def validate_path(path: str) -> bool:
-    return path in AVAILABLE_GET_PATHS
+    return path in AVAILABLE_CONF_PATHS
 
 
 def validate_auth(username: str, password: str) -> None:
@@ -89,7 +89,7 @@ class GoogleHomeCustomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     {
                         "name": user_input[CONF_FRIENDLY_NAME],
                         "ip": user_input[CONF_IP_ADDRESS],
-                        "path": user_input[CONF_PATH]
+                        "parameter": path
                     }
                 )
                 if user_input.get("add_another", False):
@@ -153,7 +153,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                         {
                             "name": user_input[CONF_FRIENDLY_NAME],
                             "ip": user_input[CONF_IP_ADDRESS],
-                            "path": user_input[CONF_PATH]
+                            "parameter": user_input[CONF_PATH]
                         }
                     )
 
@@ -167,7 +167,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             {
                 vol.Optional(CONF_DEVICES, default=list(all_devices.keys())): cv.multi_select(all_devices),
                 vol.Optional(CONF_IP_ADDRESS): cv.string,
-                vol.Optional(CONF_PATH): cv.string,
+                vol.Required(CONF_PATH): cv.string,
                 vol.Optional(CONF_FRIENDLY_NAME): cv.string,
             }
         )

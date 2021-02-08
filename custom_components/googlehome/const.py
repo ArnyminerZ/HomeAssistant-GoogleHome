@@ -30,3 +30,12 @@ ATTR_TIME_FORMAT = "time_format"
 ATTR_TIMEZONE = "timezone"
 ATTR_UPTIME = "uptime"
 ATTR_VERSION = "version"
+
+CONF_NEXT_ALARM = "next_alarm"
+
+AVAILABLE_CONF_PATHS = {
+    CONF_NEXT_ALARM: {
+        "icon": "mdi:alarm",
+        "path": "/assistant/alarms"
+    },
+}
