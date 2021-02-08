@@ -23,9 +23,7 @@ from homeassistant.const import (
 from homeassistant.helpers import ConfigType
 from homeassistant.helpers.typing import HomeAssistantType, DiscoveryInfoType
 
-from .const import (
-    DOMAIN
-)
+from .const import *
 
 DEVICE_SCHEMA = vol.Schema(
     {
@@ -91,6 +89,7 @@ class GoogleHomeVolumeSensor(Entity):
             ATTR_NAME: self.friendly_name,
             ATTR_ICON: "mdi:google-home"
         }
+        self.eureka = None
         self._name = device.get("name", self.friendly_name)
         self._state = None
         self._available = False
@@ -113,7 +112,24 @@ class GoogleHomeVolumeSensor(Entity):
 
     @property
     def device_state_attributes(self) -> Dict[str, Any]:
-        return self.attrs
+        attrs = self.attrs
+        eureka = self.eureka
+        if eureka is not None:
+            attrs[ATTR_BUILD_TYPE] = eureka["build_info"]["build_type"]
+            attrs[ATTR_BUILD_CAST_REVISION] = eureka["build_info"]["cast_build_revision"]
+            attrs[ATTR_BUILD_CAST_CONTROL_VERSION] = eureka["build_info"]["cast_control_version"]
+            attrs[ATTR_BUILD_PREVIEW_CHANNEL_STATE] = eureka["build_info"]["preview_channel_state"]
+            attrs[ATTR_RELEASE_TRACK] = eureka["build_info"]["release_track"]
+            attrs[ATTR_BUILD_NUMBER] = eureka["build_info"]["system_build_number"]
+
+            attrs[ATTR_LOCALE] = eureka["detail"]["locale"]["display_string"]
+            attrs[ATTR_TIMEZONE_OFFSET] = eureka["detail"]["timezone"]["offset"]
+            attrs[ATTR_TIMEZONE_STRING] = eureka["detail"]["timezone"]["display_string"]
+
+            attrs[ATTR_MAC] = eureka["device_info"]["mac_address"]
+            attrs[ATTR_UPTIME] = eureka["device_info"]["uptime"]
+            attrs[ATTR_NAME] = eureka["name"]
+        return attrs
 
     async def async_update(self):
         google_devices = self.client.get_google_devices_json()
@@ -128,6 +144,13 @@ class GoogleHomeVolumeSensor(Entity):
 
             if name == self.friendly_name:
                 found_device = True
+
+                eureka_request = requests.get(
+                    f"https://{self.ip}:8443/setup/eureka_info",
+                    headers={'cast-local-authorization-token': token},
+                    verify=False,
+                )
+                self.eureka = json.loads(eureka_request.text)
 
                 get_request = requests.get(
                     f"https://{self.ip}:8443/setup{self.path}",
