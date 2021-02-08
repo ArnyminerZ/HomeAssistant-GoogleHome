@@ -20,7 +20,6 @@ from homeassistant.const import (
     CONF_DEVICES,
     CONF_PATH
 )
-from homeassistant.helpers import ConfigType
 from homeassistant.helpers.typing import HomeAssistantType, DiscoveryInfoType
 
 from .const import *
@@ -125,20 +124,23 @@ class GoogleHomeVolumeSensor(Entity):
         attrs = self.attrs
         eureka = self.eureka
         if eureka is not None:
-            attrs[ATTR_BUILD_TYPE] = eureka["build_info"]["build_type"]
-            attrs[ATTR_BUILD_CAST_REVISION] = eureka["build_info"]["cast_build_revision"]
-            attrs[ATTR_BUILD_CAST_CONTROL_VERSION] = eureka["build_info"]["cast_control_version"]
-            attrs[ATTR_BUILD_PREVIEW_CHANNEL_STATE] = eureka["build_info"]["preview_channel_state"]
-            attrs[ATTR_RELEASE_TRACK] = eureka["build_info"]["release_track"]
-            attrs[ATTR_BUILD_NUMBER] = eureka["build_info"]["system_build_number"]
+            logging.info("Eureka:" + str(eureka))
+            attrs[ATTR_BSSID] = eureka["bssid"]
+            attrs[ATTR_BUILD_VERSION] = eureka["build_version"]
+            attrs[ATTR_CAST_BUILD_VERSION] = eureka["cast_build_revision"]
+            attrs[ATTR_HOTSPOT_BSSID] = eureka["hotspot_bssid"]
+            attrs[ATTR_IP_ADDRESS] = eureka["ip_address"]
+            attrs[ATTR_LOCALE] = eureka["locale"]
+            attrs[ATTR_LOCATION_COUNTRY_CODE] = eureka["location"]["country_code"]
+            attrs[ATTR_LOCATION_LATITUDE] = eureka["location"]["latitude"]
+            attrs[ATTR_LOCATION_LONGITUDE] = eureka["location"]["longitude"]
+            attrs[ATTR_MAC] = eureka["mac_address"]
+            attrs[ATTR_SSID] = eureka["ssid"]
+            attrs[ATTR_TIME_FORMAT] = eureka["time_format"]
+            attrs[ATTR_TIMEZONE] = eureka["timezone"]
+            attrs[ATTR_UPTIME] = eureka["uptime"]
+            attrs[ATTR_VERSION] = eureka["version"]
 
-            attrs[ATTR_LOCALE] = eureka["detail"]["locale"]["display_string"]
-            attrs[ATTR_TIMEZONE_OFFSET] = eureka["detail"]["timezone"]["offset"]
-            attrs[ATTR_TIMEZONE_STRING] = eureka["detail"]["timezone"]["display_string"]
-
-            attrs[ATTR_MAC] = eureka["device_info"]["mac_address"]
-            attrs[ATTR_UPTIME] = eureka["device_info"]["uptime"]
-            attrs[ATTR_NAME] = eureka["name"]
         attrs[ATTR_ICON] = self._icon
         return attrs
 
