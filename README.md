@@ -6,7 +6,7 @@ First, install the required dependencies, so you will have fewer problems when i
 case, the command is as follows, but may vary for your installation:
 
 ```shell
-python3.8 -m pip install requests==2.23.0 glocaltokens==0.1.4
+python3.8 -m pip install wheel requests==2.23.0 glocaltokens==0.1.4
 ```
 
 Then, you can clone this repo in any dir you want, `~`, for example, with:
