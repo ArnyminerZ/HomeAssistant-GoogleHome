@@ -52,15 +52,7 @@ async def async_setup_entry(
     config = hass.data[DOMAIN][config_entry.entry_id]
     if config_entry.options:
         config.update(config_entry.options)
-    client = GLocalAuthenticationTokens(
-        username=config[CONF_USERNAME],
-        password=config[CONF_PASSWORD]
-    )
-    sensors: List[Entity] = list()
-    for device in config[CONF_DEVICES]:
-        _LOGGER.info("Adding device:" + str(device))
-        sensors.append(GoogleHomeSensor(client, device))
-    async_add_entities(sensors, update_before_add=True)
+    await async_setup_platform(hass, config, async_add_entities)
 
 
 async def async_setup_platform(
