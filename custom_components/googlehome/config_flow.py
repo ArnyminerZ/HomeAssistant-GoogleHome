@@ -53,7 +53,7 @@ def validate_auth(username: str, password: str) -> None:
         username=username,
         password=password
     )
-    atoken = client.get_access_token()
+    atoken = client.get_master_token()
     if atoken is None:
         raise ValueError
 
