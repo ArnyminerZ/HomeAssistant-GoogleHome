@@ -1,6 +1,7 @@
 from copy import deepcopy
 import voluptuous as vol
-from typing import Callable, Optional, Dict, Any
+import logging
+from typing import Optional, Dict, Any
 
 from glocaltokens.client import GLocalAuthenticationTokens
 
@@ -40,6 +41,8 @@ DEVICE_SCHEMA = vol.Schema(
     }
 )
 
+_LOGGER = logging.getLogger(__name__)
+
 
 def validate_path(path: str) -> bool:
     return path in AVAILABLE_GET_PATHS
@@ -61,9 +64,11 @@ class GoogleHomeCustomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         errors: Dict[str, str] = {}
         if user_input is not None:
+            username = user_input[CONF_USERNAME]
             try:
-                validate_auth(user_input[CONF_USERNAME], user_input[CONF_PASSWORD])
+                validate_auth(username, user_input[CONF_PASSWORD])
             except ValueError:
+                _LOGGER.error(f"Tried to configure Google Home account with invalid credentials. Username: {username}")
                 errors["base"] = "auth"
             if not errors:
                 self.data = user_input
