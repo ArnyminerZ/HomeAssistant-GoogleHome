@@ -1,12 +1,10 @@
 import json
-import requests
-from homeassistant.helpers.entity import Entity
-from typing import Callable, Optional, Dict, Any, List
-
-from glocaltokens.client import GLocalAuthenticationTokens
-
 import logging
+import http3
+
+import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+from glocaltokens.client import GLocalAuthenticationTokens
 from homeassistant import config_entries, core
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 import homeassistant.helpers.config_validation as cv
@@ -20,7 +18,9 @@ from homeassistant.const import (
     CONF_DEVICES,
     CONF_PATH
 )
+from homeassistant.helpers import entity_platform
 from homeassistant.helpers.typing import HomeAssistantType, DiscoveryInfoType
+from typing import Callable, Optional, Dict, Any, List
 
 from .const import *
 
@@ -157,15 +157,16 @@ class GoogleHomeVolumeSensor(Entity):
 
             if name == self.friendly_name:
                 found_device = True
+                client = http3.AsyncClient()
 
-                eureka_request = requests.get(
+                eureka_request = await client.get(
                     f"https://{self.ip}:8443/setup/eureka_info",
                     headers={'cast-local-authorization-token': token},
                     verify=False,
                 )
                 self.eureka = json.loads(eureka_request.text)
 
-                get_request = requests.get(
+                get_request = await client.get(
                     f"https://{self.ip}:8443/setup{self.path}",
                     headers={'cast-local-authorization-token': token},
                     verify=False,
