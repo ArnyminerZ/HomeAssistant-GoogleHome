@@ -15,11 +15,11 @@
       },
       "device": {
         "title": "Add Google Home device",
-        "description": "Add a Google Home device, check the box to add another.",
+        "description": "Add a Google Home device, check the box to add another. The IP address can be found in the device's configuration from the Google Home app. The friendly name is the name you put in the Google Home app (Case sensitive). The path must be a GET path from https://rithvikvibhu.github.io/GHLocalApi/",
         "data": {
-          "ip_address": "The IP address of the device in your network. This can be found in the Google Home app.",
-          "friendly_name": "The name that you set to the device in the Google Home app. Case sensitive",
-          "path": "The request path to get. Choose from https://rithvikvibhu.github.io/GHLocalApi/"
+          "ip_address": "IP Address",
+          "friendly_name": "Name",
+          "path": "GET Path"
         }
       }
     }
