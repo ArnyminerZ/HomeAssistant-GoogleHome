@@ -86,13 +86,13 @@ class GoogleHomeVolumeSensor(Entity):
         self.ip: str = device[CONF_IP_ADDRESS]
         self.path: str = device[CONF_PATH]
         self.attrs: Dict[str, Any] = {
-            ATTR_NAME: self.friendly_name,
-            ATTR_ICON: "mdi:google-home"
+            ATTR_NAME: self.friendly_name
         }
         self.eureka = None
         self._name = device.get("name", self.friendly_name)
         self._state = None
         self._available = False
+        self._icon = "mdi:google-home"
 
     @property
     def name(self) -> str:
@@ -109,6 +109,10 @@ class GoogleHomeVolumeSensor(Entity):
     @property
     def state(self) -> Optional[str]:
         return self._state
+
+    @property
+    def icon(self) -> str:
+        return self._icon
 
     @property
     def device_state_attributes(self) -> Dict[str, Any]:
@@ -129,6 +133,7 @@ class GoogleHomeVolumeSensor(Entity):
             attrs[ATTR_MAC] = eureka["device_info"]["mac_address"]
             attrs[ATTR_UPTIME] = eureka["device_info"]["uptime"]
             attrs[ATTR_NAME] = eureka["name"]
+        attrs[ATTR_ICON] = self._icon
         return attrs
 
     async def async_update(self):
