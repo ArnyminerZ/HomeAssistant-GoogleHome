@@ -1,3 +1,8 @@
+# !!! DEPRECATED !!!
+This repository has been deprecated, please use [ha-google-home](https://github.com/leikoilja/ha-google-home).
+
+If you want to use custom python scripts, use the [glocaltokens](https://github.com/leikoilja/glocaltokens) package.
+
 # HomeAssistant-
 <a href="https://gitmoji.dev">
   <img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Gitmoji">
